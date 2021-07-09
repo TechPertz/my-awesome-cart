@@ -12,7 +12,7 @@ def index (request):
     n = len(products)
     nslides = n//4 + ceil((n/4) - (n//4))
     params ={'no_of_slides': nslides, 'range': range(1, nslides),'product': products}
-    return render(request,'shop/index.html')
+    return render(request,'shop/index.html', params)
 
 def about (request):
     return render(request,'shop/about.html')
