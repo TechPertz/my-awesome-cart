@@ -8,11 +8,6 @@ from math import ceil
 
 
 def index(request):
-    # products = Product.objects.all()
-    # print(products)
-    # params ={'no_of_slides': nslides, 'range': range(1, nslides),'product': products}
-    # allprods = [[products, range(1, nslides), nslides], [
-    #     products, range(1, nslides), nslides]]
     allprods = []
     catprods = Product.objects.values('category', 'id')
     cats = {item['category'] for item in catprods}
@@ -28,22 +23,19 @@ def index(request):
 def about(request):
     return render(request, 'shop/about.html')
 
-
 def contact(request):
-    return HttpResponse("We are at Contact")
-
+    return render(request, 'shop/contact.html')
 
 def tracker(request):
-    return HttpResponse("We are at tracker")
-
+    return render(request, 'shop/tracker.html')
 
 def search(request):
-    return HttpResponse("We are at Search")
+    return render(request, 'shop/search.html')
 
-
-def productview(request):
-    return HttpResponse("We are at Product View")
-
+def products(request, myid):
+    # fetch the ptoduct using id
+    product = Product.objects.filter(id = myid)
+    return render(request, 'shop/products.html', {'product': product[0]})
 
 def checkout(request):
-    return HttpResponse("We are at Checkout")
+    return render(request, 'shop/checkout.html')

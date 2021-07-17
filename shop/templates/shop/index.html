@@ -76,8 +76,10 @@ padding-right: 0;
               <img src="/media/{{i.image}}" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{i.product_name}}</h5>
-                <p class="card-text">{{i.desc}}</p>
-                <button id="pr{{i.id}}" class="btn btn-primary cart">Add to Cart</a>
+                <p class="card-text">{{i.desc|slice:"0:53"}}...</p>
+                <button id="pr{{i.id}}" class="btn btn-primary cart">Add to Cart</button>
+                <a href="/shop/products/{{i.id}}">
+                  <button id="qv{{i.id}}" class="btn btn-primary cart">Quick View</button></a>
               </div>
             </div>
           </div>
@@ -108,13 +110,6 @@ padding-right: 0;
 
 {% block js %}
 <script>
-  console.log("working");
-  if (localStorage.getItem('cart') == null) {
-    var cart = {};
-  } else {
-    cart = JSON.parse(localStorage.getItem('cart'))
-    document.getElementById('cart').innerHTML = Object.keys(cart).length;
-  }
 
   $('.cart').click(function () {
     console.log("clicked");
@@ -131,8 +126,5 @@ padding-right: 0;
     document.getElementById('cart').innerHTML = Object.keys(cart).length;
   }
   );
-  $('#popcart').popover()
-  document.getElementById("popcart").setAttribute('data-content', '<h5>Cart for your items in the shopping cart.</h5>');
-
 </script>
 {% endblock %}
