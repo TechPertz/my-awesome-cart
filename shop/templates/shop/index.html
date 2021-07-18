@@ -72,14 +72,15 @@ padding-right: 0;
 
           {% for i in product %}
           <div class="col-xs-3 col-sm-3 col-md-3">
-            <div class="card" style="width: 18rem;">
+            <div class="card align-items-center" style="width: 18rem;">
               <img src="/media/{{i.image}}" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{i.product_name}}</h5>
                 <p class="card-text">{{i.desc|slice:"0:53"}}...</p>
-                <button id="pr{{i.id}}" class="btn btn-primary cart">Add to Cart</button>
+                <span id="divpr{{i.id}}">
+                <button id="pr{{i.id}}" class="btn btn-primary cart">Add to Cart</button></span>
                 <a href="/shop/products/{{i.id}}">
-                  <button id="qv{{i.id}}" class="btn btn-primary cart">Quick View</button></a>
+                  <button id="qv{{i.id}}" class="btn btn-primary quickview">Quick View</button></a>
               </div>
             </div>
           </div>
@@ -111,6 +112,8 @@ padding-right: 0;
 {% block js %}
 <script>
 
+// if the add to cart button is clicked, add/increment the item.
+
   $('.cart').click(function () {
     console.log("clicked");
     var idstr = this.id.toString();
@@ -126,5 +129,12 @@ padding-right: 0;
     document.getElementById('cart').innerHTML = Object.keys(cart).length;
   }
   );
+
+  function updateCart(cart) {
+    for (var k in cart) {
+      document.getElementById
+    }
+  }
+
 </script>
 {% endblock %}

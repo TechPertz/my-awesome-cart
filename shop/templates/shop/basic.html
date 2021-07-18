@@ -43,9 +43,6 @@
           <li class="nav-item">
             <a class="nav-link" href="/shop/checkout">Checkout</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/shop/products">Product View</a>
-          </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" action="/shop/search">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -70,6 +67,7 @@
     <!-- script starts  -->
 
     <script>
+      // find out the cart items from local storage.
       console.log("working");
     if (localStorage.getItem('cart') == null) {
       var cart = {};
@@ -78,6 +76,8 @@
       document.getElementById('cart').innerHTML = Object.keys(cart).length;
     }
   
+    // popover to Cart.
+
     $('#popcart').popover()
     document.getElementById("popcart").setAttribute('data-content', '<h5>Cart for your items in the shopping cart.</h5>');
   </script>
