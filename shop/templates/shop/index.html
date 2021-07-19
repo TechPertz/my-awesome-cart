@@ -75,10 +75,10 @@ padding-right: 0;
             <div class="card align-items-center" style="width: 18rem;">
               <img src="/media/{{i.image}}" class="card-img-top" alt="...">
               <div class="card-body">
-                <h5 class="card-title">{{i.product_name}}</h5>
+                <h5 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h5>
                 <p class="card-text">{{i.desc|slice:"0:53"}}...</p>
                 <span id="divpr{{i.id}}" class="divpr">
-                <button id="pr{{i.id}}" class="btn btn-primary cart">Add to Cart</button></span>
+                  <button id="pr{{i.id}}" class="btn btn-primary cart">Add to Cart</button></span>
                 <a href="/shop/products/{{i.id}}">
                   <button id="qv{{i.id}}" class="btn btn-primary quickview">Quick View</button></a>
               </div>
@@ -112,7 +112,39 @@ padding-right: 0;
 {% block js %}
 <script>
 
-// if the add to cart button is clicked, add/increment the item.
+  console.log("working");
+  if (localStorage.getItem('cart') == null) {
+    var cart = {};
+  } else {
+    cart = JSON.parse(localStorage.getItem('cart'))
+    document.getElementById('cart').innerHTML = Object.keys(cart).length;
+  }
+
+  // popover to Cart.
+
+  $('#popcart').popover()
+  updatePopover(cart);
+
+  function updatePopover(cart) {
+    console.log("We are inside popover");
+
+    var popstr = "";
+    popstr = popstr + "<h5>Cart for your items in my shopping Cart</h5>";
+    var i = 1;
+    for (var item in cart) {
+      popstr = popstr + "<b>" + i + "</b> ";
+      popstr = popstr + document.getElementById('name' + item).innerHTML + "Qty: " + cart[item] + '<br>';
+      i = i + 1;
+    }
+
+    console.log(popstr);
+
+    document.getElementById("popcart").setAttribute('data-content', popstr);
+    $('#popcart').popover();
+
+  }
+
+  // if the add to cart button is clicked, add/increment the item.
 
   $('.cart').click(function () {
     console.log("clicked");
@@ -125,7 +157,7 @@ padding-right: 0;
     }
 
     updateCart(cart)
-    
+
   }
   );
 
@@ -142,20 +174,19 @@ padding-right: 0;
 
   }
 
-  $('.divpr').on("click", "button.minus", function() {
-    a = this.id.slice(7, );
+  $('.divpr').on("click", "button.minus", function () {
+    a = this.id.slice(7,);
     cart['pr' + a] = cart['pr' + a] - 1;
     cart['pr' + a] = Math.max(0, cart['pr' + a]);
     document.getElementById('valpr' + a).innerHTML = cart['pr' + a];
     updateCart(cart);
-});
-$('.divpr').on("click", "button.plus", function() {
-    a = this.id.slice(6, );
+  });
+  $('.divpr').on("click", "button.plus", function () {
+    a = this.id.slice(6,);
     cart['pr' + a] = cart['pr' + a] + 1;
     document.getElementById('valpr' + a).innerHTML = cart['pr' + a];
     updateCart(cart);
-});
+  });
 
 </script>
 {% endblock %}
-

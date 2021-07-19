@@ -68,18 +68,7 @@
 
     <script>
       // find out the cart items from local storage.
-      console.log("working");
-    if (localStorage.getItem('cart') == null) {
-      var cart = {};
-    } else {
-      cart = JSON.parse(localStorage.getItem('cart'))
-      document.getElementById('cart').innerHTML = Object.keys(cart).length;
-    }
-  
-    // popover to Cart.
-
-    $('#popcart').popover()
-    document.getElementById("popcart").setAttribute('data-content', '<h5>Cart for your items in the shopping cart.</h5>');
+      
   </script>
 
     {% block js %} {% endblock %}
