@@ -123,8 +123,8 @@ padding-right: 0;
 
   // if the add to cart button is clicked, add/increment the item.
 
-  $('.cart').click(function () {
-    console.log("clicked");
+  // $('.cart').click(function () {
+  $(".divpr").on('click', 'button.cart', function(){
     var idstr = this.id.toString();
     console.log(idstr);
     if (cart[idstr] != undefined) {
@@ -153,7 +153,6 @@ padding-right: 0;
       i = i + 1;
     }
     popstr = popstr + "</div> <a href = '/shop/checkout'> <button class = 'btn btn-primary' id = 'checkout'>Checkout</button></a><button class = 'btn btn-primary' onclick='clearCart()' id = 'clearCart'>Clear Cart</button>"
-    console.log(popstr);
 
     document.getElementById("popcart").setAttribute('data-content', popstr);
     $('#popcart').popover({'sanitize': false});
@@ -163,7 +162,8 @@ padding-right: 0;
   function clearCart() {
     cart = JSON.parse(localStorage.getItem('cart'));
     for (var item in cart) {
-      document.getElementById('div' + item) = '<button id = "' + item + '"class = btn btn-primary cart"> Add To Cart </button>'
+      console.log(item)
+      document.getElementById('div' + item).innerHTML = '<button id = "' + item + '"class = "btn btn-primary cart"> Add To Cart 12131 </button>'
     }
     localStorage.clear();
     cart = {}
