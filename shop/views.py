@@ -1,6 +1,7 @@
+from django.db.models.query import prefetch_related_objects
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Product, Contact
+from .models import Product, Contact, Orders
 
 from math import ceil
 
@@ -45,4 +46,20 @@ def products(request, myid):
     return render(request, 'shop/products.html', {'product': product[0]})
 
 def checkout(request):
-    return render(request, 'shop/checkout.html')
+    thank = False
+    id = ""
+    if request.method == "POST":
+        itemsJson = request.POST.get('itemsJson', '')
+        name = request.POST.get('name', '')
+        email = request.POST.get('email', '')
+        address1 = request.POST.get('address1', '')
+        address2 = request.POST.get('address2', '')
+        city = request.POST.get('city', '')
+        state = request.POST.get('state', '')
+        zip_code = request.POST.get('zip', '')
+        phone = request.POST.get('phone', '')
+        order = Orders(items_json=itemsJson, name=name, email=email, address=address1 + " " + address2, city = city, state = state, zip_code=zip_code, phone=phone)
+        order.save()
+        thank = True
+        id = order.order_id
+    return render(request, 'shop/checkout.html', {'thank' : thank, 'id' : id})
