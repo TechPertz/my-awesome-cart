@@ -36,6 +36,14 @@
                 Enter your order Id and Email. And click Track Order to find the details of your order!
             </ul>
         </div>
+        <h2>
+            Your Order Details
+        </h2>
+        <div class="my-4">
+            <ul class="list-group" id="citems-group">
+                Enter your order Id and Email. And click Track Order to find the details of your order!
+            </ul>
+        </div>
     </div>
 </div>
 
@@ -70,11 +78,15 @@
                 </li>`
                         $('#items-group').append(mystr)
                     }
-                }else{
+                } else {
                     mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
                     Sorry, we are not able to fetch this order id and email. Make sure to mention ypur correct Order Id and Email.</li>`
                     $('#items-group').append(mystr)
                 }
+
+                // fill in the order details.
+                // cart = data[1];
+                // console.log(cart);
 
             });
         event.preventDefault();
