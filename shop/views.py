@@ -1,12 +1,12 @@
 from django.db.models.query import prefetch_related_objects
 from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Product, Contact, Orders
+from django.http import HttpResponse, response
+from .models import Product, Contact, Orders, OrderUpdate
+import json
 
 from math import ceil
 
 # Create your views here.
-
 
 def index(request):
     allprods = []
@@ -19,7 +19,6 @@ def index(request):
         allprods.append([prod, range(1, nslides), nslides])
     params = {'allprods': allprods}
     return render(request, 'shop/index.html', params)
-
 
 def about(request):
     return render(request, 'shop/about.html')
@@ -35,13 +34,29 @@ def contact(request):
     return render(request, 'shop/contact.html')
 
 def tracker(request):
+    if request.method == "POST":
+        orderId = request.get('orderId', '')
+        email = request.get('email', '')
+        try:
+            order = Orders.objects.filter(order_id = orderId, email = email)
+            if len(order)>0:
+                update = OrderUpdate.objects.filter(order_id = orderId)
+                updates = []
+                for item in update:
+                    updates.append({'text' : item.update_desc, 'time' : item.timestamp})
+                    response = json.dumps(updates)
+                    return HttpResponse(response)
+            else:
+                pass
+        except Exception as e:
+            pass
+
     return render(request, 'shop/tracker.html')
 
 def search(request):
     return render(request, 'shop/search.html')
 
 def products(request, myid):
-    # fetch the ptoduct using id
     product = Product.objects.filter(id = myid)
     return render(request, 'shop/products.html', {'product': product[0]})
 
@@ -60,6 +75,8 @@ def checkout(request):
         phone = request.POST.get('phone', '')
         order = Orders(items_json=itemsJson, name=name, email=email, address=address1 + " " + address2, city = city, state = state, zip_code=zip_code, phone=phone)
         order.save()
+        update = OrderUpdate(order_id = order.order_id, update_desc = "The Order has been placed")
+        update.save()
         thank = True
         id = order.order_id
     return render(request, 'shop/checkout.html', {'thank' : thank, 'id' : id})
