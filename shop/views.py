@@ -73,8 +73,10 @@ def search(request):
         nslides = n//4 + ceil((n/4) - (n//4))
         if len(prod)!=0:
             allprods.append([prod, range(1, nslides), nslides])
-    params = {'allprods': allprods}
-    return render(request, 'shop/index.html', params)
+    params = {'allprods': allprods, 'msg' : ""}
+    if len(allprods) == 0:
+        params = {'msg' : "Please make sure to ente relevant search query"}
+    return render(request, 'shop/search.html', params)
 
 def products(request, myid):
     product = Product.objects.filter(id = myid)
