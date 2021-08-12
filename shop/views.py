@@ -36,24 +36,26 @@ def contact(request):
     return render(request, 'shop/contact.html', {'thank' : thank})
 
 def tracker(request):
-    if request.method == "POST":
+    if request.method=="POST":
         orderId = request.POST.get('orderId', '')
         email = request.POST.get('email', '')
         try:
-            order = Orders.objects.filter(order_id = orderId, email = email)
+            order = Orders.objects.filter(order_id=orderId, email=email)
             if len(order)>0:
-                update = OrderUpdate.objects.filter(order_id = orderId)
+                update = OrderUpdate.objects.filter(order_id=orderId)
                 updates = []
                 for item in update:
-                    updates.append({'text' : item.update_desc, 'time' : item.timestamp})
-                    response = json.dumps([updates,order[0].items_json], default=str)
+                    updates.append({'text': item.update_desc, 'time': item.timestamp})
+                    response = json.dumps({"status":"success", "updates": updates, "itemsJson": order[0].items_json}, default=str)
                 return HttpResponse(response)
-            else: 
-                return HttpResponse('{}')
+            else:
+                return HttpResponse('{"status":"noitem"}')
         except Exception as e:
-            return HttpResponse('{}')
+            return HttpResponse('{"status":"error"}')
 
     return render(request, 'shop/tracker.html')
+
+
 
 def searchMatch(query, item):
     if query in item.desc.lower() or query in item.product_name.lower() or query in item.category.lower() or query in item.sub_category.lower():

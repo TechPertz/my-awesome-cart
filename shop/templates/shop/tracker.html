@@ -67,10 +67,11 @@
         })
 
             .done(function (data) {
+                ('#citems-group').empty()
                 data = JSON.parse(data);
-                updates = data[0];
                 console.log(updates)
-                if (data.length > 0 & data != {}) {
+                if (data['status'] == 'success') {
+                    updates = data['updates'];
                     for (i = 0; i < updates.length; i++) {
                         let text = updates[i]['text'];
                         let time = updates[i]['time'];
@@ -81,7 +82,7 @@
                         $('#items-group').append(mystr)
                     }
 
-                    cart = JSON.parse(data[1]);
+                    cart = JSON.parse(data['itemsJson']);
                     for (item in cart) {
                         let name = cart[item][1];
                         let qty = cart[item][0];
